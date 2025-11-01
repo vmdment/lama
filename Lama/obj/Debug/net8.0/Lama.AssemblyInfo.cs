@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Lama")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4db2908ea7debad7f6d53f0941974a9ac7c89749")]
 [assembly: System.Reflection.AssemblyProductAttribute("Lama")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Lama")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
