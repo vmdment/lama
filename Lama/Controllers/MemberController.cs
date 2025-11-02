@@ -1,4 +1,6 @@
-﻿using Lama.Domain;
+﻿using Lama.Config;
+using Lama.Models;
+using Lama.Repositories;
 using Lama.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +14,9 @@ namespace Lama.Controllers
     {
         private readonly MemberService _memberService;
 
-        public MiembrosController(MemberService memberService)
+        public MiembrosController()
         {
-           _memberService = memberService;
+           _memberService = new MemberService(new MemberRepository(ConnectionDB.connectionDB));
 
         }
         [HttpGet]
@@ -23,35 +25,48 @@ namespace Lama.Controllers
             return _memberService.GetAllMembers();
         }
         [HttpGet("{id}")]
-        public async Task<Member> GetMiembro(int id)
+        public  Member GetMiembro(int id)
         {
-            var miembro = await _context.Miembros.FindAsync(id);
-            if (miembro == null) return NotFound();
-            return miembro;
+            try
+            {
+                return _memberService.GetOneById(id);
+            }
+            catch (Exception)
+            {
+                throw;
+              
+            }
         }
         [HttpPost]
         public async Task<Member> PostMiembro(Member miembro)
         {
-            _context.Miembros.Add(miembro);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetMiembro), new { id = miembro.Id }, miembro);
+            try
+            {
+               return _memberService.AddMember(miembro);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMiembro(int id, Member miembro)
-        {
-            if (id != miembro.Id) return BadRequest();
-            _context.Entry(miembro).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutMiembro(int id, Member miembro)
+        //{
+        //    return _memberService.UpdateMemberEmail(miembro.Nombre,);
+        //}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMiembro(int id)
+        public async Task<Member> DeleteMiembro(int id)
         {
-            var miembro = await _context.Miembros.FindAsync(id);
-            if (miembro == null) return NotFound();
-            _context.Miembros.Remove(miembro);
-            await _context.SaveChangesAsync();
-            return NoContent();
+            try
+            {
+                return _memberService.DeleteMember(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 

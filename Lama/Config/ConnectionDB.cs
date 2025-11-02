@@ -4,8 +4,9 @@ namespace Lama.Config
 {
     public class ConnectionDB : Interfaces.IConnection
     {
-        public string ConnectionString { get; set; }
-        public ConnectionDB(string connectionString)
+        private string ConnectionString { get; set; }
+        public static readonly ConnectionDB connectionDB = new ConnectionDB("Server=tcp:lama.database.windows.net,1433;Initial Catalog=lama;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=\"Active Directory Default\"");
+        private ConnectionDB(string connectionString)
         {
             ConnectionString = connectionString;
         }
