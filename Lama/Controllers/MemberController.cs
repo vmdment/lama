@@ -2,19 +2,17 @@
 using Lama.Models;
 using Lama.Repositories;
 using Lama.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lama.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class MiembrosController : ControllerBase
+    public class MemberController : ControllerBase
     {
         private readonly MemberService _memberService;
 
-        public MiembrosController()
+        public MemberController()
         {
            _memberService = new MemberService(new MemberRepository(ConnectionDB.connectionDB));
 

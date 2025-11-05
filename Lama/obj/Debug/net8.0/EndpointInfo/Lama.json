@@ -5,10 +5,10 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Miembros": {
+    "/api/Member": {
       "get": {
         "tags": [
-          "Miembros"
+          "Member"
         ],
         "responses": {
           "200": {
@@ -44,7 +44,7 @@
       },
       "post": {
         "tags": [
-          "Miembros"
+          "Member"
         ],
         "requestBody": {
           "content": {
@@ -89,10 +89,10 @@
         }
       }
     },
-    "/api/Miembros/{id}": {
+    "/api/Member/{id}": {
       "get": {
         "tags": [
-          "Miembros"
+          "Member"
         ],
         "parameters": [
           {
@@ -130,7 +130,7 @@
       },
       "delete": {
         "tags": [
-          "Miembros"
+          "Member"
         ],
         "parameters": [
           {
