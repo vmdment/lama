@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router'
-import './App.css'
-import { Login } from './pages/Login'
-import { Register } from './pages/Register'
 import { Index } from './pages/Index'
+import { ListMembers } from './pages/ListMembers'
+import { UpdateMember } from './pages/UpdateMember'
 import { PublicLayout } from './pages/layouts/PublicLayout'
+import './App.css'
 
 export const App = () => {
 
@@ -12,8 +12,8 @@ export const App = () => {
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path='/' element={<Index />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
+          <Route path='/list-member' element={<ListMembers />} />
+          <Route path='/update-member' element={<UpdateMember />} />
         </Route>
       </Routes>
     </BrowserRouter>
