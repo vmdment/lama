@@ -63,7 +63,15 @@ export const UpdateMember = () => {
     } = form;
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const data = await (await fetch(`https://lama-baa2dphgfmdphfa0.canadacentral-01.azurewebsites.net/api/Member`, { mode: 'cors', method: 'POST', body: JSON.stringify({ ...form, foto: '' }) })).json();
+        const headers = new Headers({
+            accept: 'application/json',
+            'Content-Type':'application/json'
+        });
+        const dataSend2:any = {...form};
+        delete dataSend2.id;        
+        const dataSend = JSON.stringify({ ...dataSend2 });
+        console.log(dataSend)
+        const data = await (await fetch(`https://lama-baa2dphgfmdphfa0.canadacentral-01.azurewebsites.net/api/Member`, { headers, method: 'POST', body: dataSend })).json();
         console.log({ data });
     }
     const handleClickUpdate = (e: MouseEvent<HTMLButtonElement>) => {
