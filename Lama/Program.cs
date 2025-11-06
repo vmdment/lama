@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "MyAllowSpecificOrigins",
                       policy =>
                       {
-                          policy.WithOrigins("*")
+                          policy.WithOrigins("localhost:5713","lama-gold.vercel.app")
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
                       });
