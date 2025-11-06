@@ -1,8 +1,8 @@
 ﻿using Lama.Config;
 using Lama.Models;
-using Lama.Repositories;
-using Lama.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore; // Necesario para métodos como ToArrayAsync
+// using Lama.Services;  // Ya no necesario si se usa DbContext directamente
 
 namespace Lama.Controllers
 {
@@ -10,62 +10,55 @@ namespace Lama.Controllers
     [Route("api/[controller]")]
     public class MemberController : ControllerBase
     {
-        private readonly MemberService _memberService;
+        //  Ahora _context es el DbContext
+        private readonly ApplicationDbContext _context;
 
-        public MemberController()
+        //  Se inyecta _context directamente
+        public MemberController(ApplicationDbContext context)
         {
-           _memberService = new MemberService(new MemberRepository(ConnectionDB.connectionDB));
-
+            _context = context;
         }
+
         [HttpGet]
-        public async Task<IEnumerable<Member>> GetMembers()
+        public async Task<IEnumerable<MemberModel>> GetMembers()
         {
-            return _memberService.GetAllMembers();
+            // Uso de _context para acceder a los datos
+            return await _context.Miembros.ToArrayAsync();
         }
         [HttpGet("{id}")]
-        public  Member GetMiembro(int id)
+        public async Task<ActionResult<MemberModel>> GetMember(int id)
         {
-            try
-            {
-                return _memberService.GetOneById(id);
-            }
-            catch (Exception)
-            {
-                throw;
-              
-            }
+            var member = await _context.Miembros.FindAsync(id);
+            if (member == null) return NotFound();
+            return member;
         }
+
         [HttpPost]
-        public async Task<Member> PostMiembro(Member miembro)
+        public async Task<ActionResult<MemberModel>> CreateMember(MemberModel member)
         {
-            try
-            {
-               return _memberService.AddMember(miembro);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            _context.Miembros.Add(member);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetMember), new { id = member.Id }, member);
         }
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutMiembro(int id, Member miembro)
-        //{
-        //    return _memberService.UpdateMemberEmail(miembro.Nombre,);
-        //}
-        [HttpDelete("{id}")]
-        public async Task<Member> DeleteMiembro(int id)
-        {
-            try
-            {
-                return _memberService.DeleteMember(id);
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMember(int id, MemberModel member)
+        {
+            //if (id != member.Id) return BadRequest();
+            member.Id = id;
+            _context.Entry(member).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMemberById(int id)
+        {
+            var member = await _context.Miembros.FindAsync(id);
+            if (member == null) return NotFound();
+            _context.Miembros.Remove(member);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
-
 }

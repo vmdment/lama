@@ -1,7 +1,14 @@
+using Lama.Config;
+using Microsoft.EntityFrameworkCore;
+// ... (otras directivas using)
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// 💡 Configuración de Entity Framework Core con SQL Server
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>options.UseSqlServer(connectionString)); // Usar UseSqlServer para Azure SQL
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

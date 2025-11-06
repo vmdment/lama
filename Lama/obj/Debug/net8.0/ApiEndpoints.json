@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Lama.Models.Member, Lama, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Lama.Models.MemberModel, Lama, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -28,14 +28,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "miembro",
-        "Type": "Lama.Models.Member",
+        "Name": "member",
+        "Type": "Lama.Models.MemberModel",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Lama.Models.Member",
+        "Type": "Lama.Models.MemberModel",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -61,7 +61,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Lama.Models.Member",
+        "Type": "Lama.Models.MemberModel",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -73,7 +73,28 @@
   },
   {
     "ContainingType": "Lama.Controllers.MemberController",
-    "Method": "DeleteMiembro",
+    "Method": "UpdateMember",
+    "RelativePath": "api/Member/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "member",
+        "Type": "Lama.Models.MemberModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Lama.Controllers.MemberController",
+    "Method": "DeleteMemberById",
     "RelativePath": "api/Member/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -85,17 +106,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "Lama.Models.Member",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Lama.Controllers.WeatherForecastController",

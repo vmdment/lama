@@ -18,7 +18,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Member"
+                    "$ref": "#/components/schemas/MemberModel"
                   }
                 }
               },
@@ -26,7 +26,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Member"
+                    "$ref": "#/components/schemas/MemberModel"
                   }
                 }
               },
@@ -34,7 +34,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Member"
+                    "$ref": "#/components/schemas/MemberModel"
                   }
                 }
               }
@@ -50,17 +50,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Member"
+                "$ref": "#/components/schemas/MemberModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Member"
+                "$ref": "#/components/schemas/MemberModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Member"
+                "$ref": "#/components/schemas/MemberModel"
               }
             }
           }
@@ -71,17 +71,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Member"
+                  "$ref": "#/components/schemas/MemberModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Member"
+                  "$ref": "#/components/schemas/MemberModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Member"
+                  "$ref": "#/components/schemas/MemberModel"
                 }
               }
             }
@@ -111,20 +111,60 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Member"
+                  "$ref": "#/components/schemas/MemberModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Member"
+                  "$ref": "#/components/schemas/MemberModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Member"
+                  "$ref": "#/components/schemas/MemberModel"
                 }
               }
             }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       },
@@ -145,24 +185,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Member"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Member"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Member"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -241,7 +264,7 @@
   },
   "components": {
     "schemas": {
-      "Member": {
+      "MemberModel": {
         "type": "object",
         "properties": {
           "id": {
@@ -275,7 +298,8 @@
           },
           "member": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "cargo": {
             "type": "string",
