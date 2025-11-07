@@ -2,6 +2,7 @@ import type { FormEvent, MouseEvent } from "react"
 import { InputField } from "../components/InputField";
 import { InputList } from "../components/InputList";
 import { useForm } from "../hooks/useForm";
+import { useLocation } from "react-router";
 const initialForm = {
     id: '',
     nombre: '',
@@ -10,7 +11,7 @@ const initialForm = {
     correoElectronico: '',
     fechaIngreso: '',
     direccion: '',
-    miembro: 0,
+    member: 0,
     cargo: '',
     rango: '',
     estatus: '',
@@ -31,8 +32,10 @@ const initialForm = {
     fechaExpedicionLicenciaConduccion: ''
 }
 export const UpdateMember = () => {
-    const rhTypes = [{ text: 'A+', value: 'A+' }, { text: 'A-', value: 'A-' }, { text: 'B', value: 'B' }, { text: 'B-', value: 'B-' }, { text: 'AB+', value: 'AB+' }, { text: 'O', value: 'O' }];
-    const { form, handleChange } = useForm(initialForm);
+    const rhTypes = [{ text: 'A+', value: 'A+' }, { text: 'A-', value: 'A-' }, { text: 'B', value: 'B' }, { text: 'B-', value: 'B-' }, { text: 'AB+', value: 'AB+' }, { text: 'O+', value: 'O+' }, { text: 'O-', value: 'O-' }];
+    const location = useLocation();
+    const data = location.state || initialForm;
+    const { form, handleChange } = useForm(data);
     const {
         id,
         nombre,
@@ -41,7 +44,7 @@ export const UpdateMember = () => {
         correoElectronico,
         fechaIngreso,
         direccion,
-        miembro,
+        member,
         cargo,
         rango,
         estatus,
@@ -65,17 +68,39 @@ export const UpdateMember = () => {
         e.preventDefault();
         const headers = new Headers({
             accept: 'application/json',
-            'Content-Type':'application/json'
+            'Content-Type': 'application/json'
         });
-        const dataSend2:any = {...form};
-        delete dataSend2.id;        
+        const dataSend2: any = { ...form };
+        delete dataSend2.id;
         const dataSend = JSON.stringify({ ...dataSend2 });
-        console.log(dataSend)
-        const data = await (await fetch(`https://lama-baa2dphgfmdphfa0.canadacentral-01.azurewebsites.net/api/Member`, { headers, method: 'POST', body: dataSend })).json();
-        console.log({ data });
+        await (await fetch(`https://lama-baa2dphgfmdphfa0.canadacentral-01.azurewebsites.net/api/Member`, { headers, method: 'POST', body: dataSend })).json();
     }
-    const handleClickUpdate = (e: MouseEvent<HTMLButtonElement>) => {
+    const handleClickUpdate = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        const headers = new Headers({
+            accept: 'application/json',
+            'Content-Type': 'application/json'
+        });
+        const dataSend2: any = { ...form };
+        const dataSend = JSON.stringify({ ...dataSend2 });
+
+        try {
+            await (await fetch(`https://lama-baa2dphgfmdphfa0.canadacentral-01.azurewebsites.net/api/Member/${data?.id}`, { headers, method: 'PUT', body: dataSend })).json();
+        } catch (err) {
+            console.warn(err);
+        }
+    }
+    const handleDelete = async () => {
+        const headers = new Headers({
+            accept: 'application/json',
+            'Content-Type': 'application/json'
+        });
+        
+        try {
+            await (await fetch(`https://lama-baa2dphgfmdphfa0.canadacentral-01.azurewebsites.net/api/Member/${data?.id}`, { headers, method: 'DELETE' })).json();
+        } catch (err) {
+            console.warn(err);
+        }
     }
     return (
         <div>
@@ -92,7 +117,7 @@ export const UpdateMember = () => {
                     <InputField label="Direccion" value={direccion} name="direccion" placeholder="Ingrese su direccion" handleChange={handleChange} />
                 </div>
                 <div className="flex gap-4 ">
-                    <InputField label="Miembro" value={miembro} name="miembro" placeholder="Ingrese su miembro number" handleChange={handleChange} />
+                    <InputField label="Miembro" value={member} name="member" placeholder="Ingrese su numero de miembro" handleChange={handleChange} />
                     <InputField label="Cargo" value={cargo} name="cargo" placeholder="Ingrese su cargo" handleChange={handleChange} />
                     <InputField label="Rango" value={rango} name="rango" placeholder="Ingrese su rango" handleChange={handleChange} />
                 </div>
@@ -132,7 +157,7 @@ export const UpdateMember = () => {
                     <button onClick={handleClickUpdate} className="bg-amber-700 hover:bg-amber-600 p-3 rounded-lg text-white cursor-pointer">
                         Actualizar
                     </button>
-                    <button onClick={handleClickUpdate} className="bg-red-500 hover:bg-red-400 p-3 rounded-lg text-white cursor-pointer">
+                    <button onClick={handleDelete} className="bg-red-500 hover:bg-red-400 p-3 rounded-lg text-white cursor-pointer">
                         Eliminar
                     </button>
                 </div>
